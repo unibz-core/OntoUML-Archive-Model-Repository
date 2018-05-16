@@ -1,0 +1,100 @@
+publication "Ascribing Value"
+authors "Birger Andersson and Paul Johannesson"
+ontology "Ontology for Value Ascription"
+
+class "Value Ascription" <<event>>;
+
+class "SoA Value Ascription" <<event>>;
+class "VO Value Ascription" <<event>>;
+genset
+	gen super "Value Ascription" sub "VO Value Ascription"
+	gen super "Value Ascription" sub "SoA Value Ascription";
+	
+class Agent <<category>>;
+
+class "Value Quale" <<quale>>;
+
+class "Value Protocol" <<abstractIndividual>>;
+
+class "Comparison Frame" <<set>>;
+
+class "Context Frame" <<set>>;
+
+class "Value Structure" <<qualityStructure>>;
+
+class "Value Object" <<endurant>>;
+
+class "Context" <<situation>>;
+
+class "Value Dimension" <<qualityDimension>>;
+
+class "Focused State of Affairs" <<situation>>;
+
+association
+	from [1..*] : "SoA Value Ascription"
+	to [0..*] : "VO Value Ascription";
+
+association "by"
+	from [0..*] : "Value Ascription"
+	to [1..1] : Agent;
+
+association "for"
+	from [0..*] : "Value Ascription"
+	to [1..1] : Agent;
+
+association "with"
+	from [0..*] : Agent
+	to [1..1] : "Value Quale";
+	
+association "precedes"
+	from [0..*] : "Value Ascription"
+	to [0..*] : "Value Ascription";
+	
+association "accordingTo"
+	from [0..*] : "Value Ascription"
+	to [1..1] : "Value Protocol";
+
+association "to1"
+	from [0..*] : "SoA Value Ascription"
+	to [1..1] : "Focused State of Affairs";
+
+association "to2"
+	from [0..*] : "VO Value Ascription"
+	to [1..1] : "Value Object";
+
+association "memberOf1"
+	from [1..*] : "Value Quale"
+	to [1..1] : "Value Structure";
+
+association "usedToDefine"
+	from [1..*] : "Value Dimension"
+	to [1..1] : "Value Structure";
+
+association
+	from composite [1..1] : "Value Protocol"
+	to [1..*] : "Value Structure";
+
+association
+	from composite [1..1] : "Value Protocol"
+	to [1..*] : "Context Frame";
+
+association
+	from composite [1..1] : "Value Protocol"
+	to [1..*] : "Comparison Frame";
+
+association "memberOf2"
+	from [1..*] : "Context"
+	to [0..*] : "Context Frame";
+
+association "memberOf3"
+	from [1..*] : "Comparison Frame"
+	to [0..*] : "Value Object";
+
+association
+	from shared : "Focused State of Affairs"
+	to : "Value Object";
+
+association
+	from shared : "Focused State of Affairs"
+	to : "Context";
+

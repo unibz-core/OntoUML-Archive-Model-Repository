@@ -1,0 +1,20 @@
+publication "Optimization of Queries Based on Foundational Ontologies"
+authors "Jana Ahmad, Petr Kremen, and Martin Ledvinka"
+
+/** Problematic models */
+
+class "Object" <<object>>;
+
+class "Agent" <<category>>;
+gen super "Object" sub "Agent";
+
+class "Organization" <<kind>>;
+class "Person" <<kind>>;
+genset
+	gen super "Agent" sub "Organization"
+	gen super "Agent" sub "Person";
+
+class "Technical System" <<category>>;
+gen super "Object" sub "Technical System";
+
+/** I will stop here */

@@ -1,0 +1,36 @@
+@startuml
+
+"Focused_State_of_Affairs" o-- "Value_Object"
+"Value_Quale" <<quale>>
+"Value_Ascription" "0..*" --  "1..1"Agent: "for" >
+"SoA_Value_Ascription" "1..*" --  "0..*""VO_Value_Ascription"
+"SoA_Value_Ascription" "0..*" --  "1..1""Focused_State_of_Affairs": "to1" >
+"Value_Ascription" "0..*" --  "1..1""Value_Protocol": "accordingTo" >
+"Context" <<situation>>
+Agent "0..*" --  "1..1""Value_Quale": "with" >
+"Comparison_Frame" <<set>>
+"Value_Ascription" "0..*" --  "0..*""Value_Ascription": "precedes" >
+"Context_Frame" <<set>>
+"Value_Protocol" "1..1" *--  "1..*""Value_Structure"
+"Comparison_Frame" "1..*" --  "0..*""Value_Object": "memberOf3" >
+"Focused_State_of_Affairs" o-- "Context"
+"VO_Value_Ascription" "0..*" --  "1..1""Value_Object": "to2" >
+"Value_Ascription" <<event>>
+"Context" "1..*" --  "0..*""Context_Frame": "memberOf2" >
+"Value_Dimension" <<qualityDimension>>
+"Focused_State_of_Affairs" <<situation>>
+"Value_Ascription" "0..*" --  "1..1"Agent: "by" >
+"Value_Protocol" "1..1" *--  "1..*""Comparison_Frame"
+"Value_Structure" <<qualityStructure>>
+"SoA_Value_Ascription" <<event>>
+"Value_Protocol" <<abstractIndividual>>
+"Value_Object" <<endurant>>
+"Value_Protocol" "1..1" *--  "1..*""Context_Frame"
+Agent <<category>>
+"Value_Quale" "1..*" --  "1..1""Value_Structure": "memberOf1" >
+"VO_Value_Ascription" <<event>>
+"Value_Ascription" <|-- "SoA_Value_Ascription"
+"Value_Dimension" "1..*" --  "1..1""Value_Structure": "usedToDefine" >
+"Value_Ascription" <|-- "VO_Value_Ascription"
+
+@enduml
