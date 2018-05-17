@@ -1,0 +1,159 @@
+publication "Economic Exchange in a Regulated Shared Ledger"
+authors "Ivars Blums and Hans Weigand"
+
+class "Performance Obligation (POB)" <<collective>>;
+
+class "Unit of Account" <<collective>>;
+
+class "Performance Right (PRT)" <<collective>>;
+
+class "Economic Relator" <<relator>>
+	att Timing
+	att ObjectRights
+	att CurrentValue;
+
+abstract class "Asset//Liability" <<roleMixin>>
+	att Function
+	att Nature
+	att HistoricalCost;
+gen super "Economic Relator" sub "Asset//Liability";
+
+class "Party's Obligation" <<relator>>;
+class "Party's Right" <<relator>>;
+genset disjoint complete
+	gen super "Economic Relator" sub "Party's Obligation"
+	gen super "Economic Relator" sub "Party's Right";
+
+class "Underlying Object" <<category>>
+	att Place
+	att Quantity;
+
+class "Market Participant";
+
+abstract class Party;
+gen super "Market Participant" sub Party;
+
+abstract class Counterparty;
+gen super "Market Participant" sub Counterparty;
+
+abstract class "Economic Event";
+
+class "Economic Exchange"
+	att "Time Interval";
+
+class Transfer;
+class Receipt;
+genset disjoint
+	gen super "Economic Exchange" sub Transfer
+	gen super "Economic Exchange" sub Receipt;
+
+association
+	end composite : "Unit of Account"
+	end : "Performance Obligation (POB)";
+
+association
+	end composite : "Unit of Account"
+	end : "Performance Right (PRT)";
+
+association
+	end composite : "Performance Obligation (POB)"
+	end : "Party's Obligation";
+
+association
+	end composite : "Performance Right (PRT)"
+	end : "Party's Right";
+
+association fulfill
+	end navigable [0..*] : "Party's Obligation"
+	end [1..1] : Transfer;
+
+association fulfill2
+	end navigable [0..*] : "Party's Right"
+	end [1..1] : Receipt;
+
+association <<mediation>>
+	end : "Economic Relator"
+	end [1..*] : Party;
+
+association <<mediation>>
+	end : "Economic Relator"
+	end [1..*] : Counterparty;
+
+association over
+	end [0..*] : "Economic Relator"
+	end navigable [0..*] : "Underlying Object";
+
+association "controls/cannot avoid"
+	end [1..1] : Party
+	end [0..*] : "Asset//Liability";
+
+association participation
+	end : "Economic Exchange"
+	end navigable [1..1] : Party;
+
+association outflow
+	end [1..1] : "Economic Exchange"
+	end navigable [0..*] : "Economic Relator";
+
+association inflow
+	end [1..1] : "Economic Exchange"
+	end navigable [0..*] : "Economic Relator";
+
+association participation2
+	end : "Economic Exchange"
+	end navigable [1..1] : Counterparty;
+
+class "Offer//Agreement";
+gen super "Economic Event" sub "Offer//Agreement";
+
+class "Party//Counterpart";
+gen super "Market Participant" sub "Party//Counterpart";
+
+class Revaluation;
+gen super "Economic Event" sub Revaluation;
+
+class "Offering//Contract";
+gen super "Unit of Account" sub "Offering//Contract";
+
+class "Transfer//Receipt";
+gen super "Economic Exchange" sub "Transfer//Receipt";
+
+class "Revenue//Product Recognition";
+gen super "Economic Exchange" sub "Revenue//Product Recognition";
+
+class "Receivable//Payable Recognition";
+gen super "Economic Exchange" sub "Receivable//Payable Recognition";
+
+class "Payable//Receivable Settlement";
+gen super "Economic Exchange" sub "Payable//Receivable Settlement";
+
+class "Exchange Obligation//Right";
+gen super "Economic Relator" sub "Exchange Obligation//Right";
+
+class "Performance Obligation - POB//Right - PRT";
+gen super "Economic Relator" sub "Performance Obligation - POB//Right - PRT";
+
+class "Contract Clause" <<relator>>;
+
+class "Liability//Asset";
+
+class "Payable//Receivable";
+gen super "Liability//Asset" sub "Payable//Receivable";
+
+class "Performance Payable - POB//Receivable - PRT";
+gen super "Liability//Asset" sub "Performance Payable - POB//Receivable - PRT";
+
+class "POB fulfill Asset//Liability";
+gen super "Asset//Liability" sub "POB fulfill Asset//Liability";
+
+class "Contract Asset//Liability";
+gen super "Asset//Liability" sub "Contract Asset//Liability";
+
+class Resource;
+abstract class Asset;
+gen super Resource sub Asset;
+
+class Obligation;
+abstract class "Liability (Equity)";
+gen super Obligation sub "Liability (Equity)";
+

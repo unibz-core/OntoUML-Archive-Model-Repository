@@ -1,0 +1,134 @@
+/**
+ * Towards a Collaboration Ontology
+ * 	by Felipe F. Oliveira , Julio C. P. Antunes, , Renata S. S. Guizzardi
+ * 
+ *	OliveiraAntunesGuizzardi2007
+ * 
+ */
+ 
+publication "Towards a Collaboration Ontology"
+authors "Felipe F. Oliveira , Julio C. P. Antunes, , Renata S. S. Guizzardi"
+ontology "Collaboration Ontology"
+ 
+ class "Site" <<kind>>;
+ class "VirtualSite" <<subkind>>;
+ class "RealSite" <<subkind>>; 
+
+ genset
+ 	gen super "Site" sub "RealSite"
+ 	gen super "Site" sub "VirtualSite";
+
+class "Artifact" <<category>>;
+class "CollaborationArtifact" <<roleMixin>>;
+gen super "Artifact" sub "CollaborationArtifact";
+
+class "Agent" <<category>>;
+class "Participant" <<roleMixin>>;
+gen super "Agent" sub "Participant";
+
+association "executes"
+	from [1..1] : "Participant"
+	to [1..*] : "Participation";
+
+association "knows1"
+	from [0..*] : "Participant"
+	to [1..*] : "Protocol";
+
+class "Participation" <<atomicEvent>>;
+class "CollaborativeAction" <<atomicEvent>>;
+gen super "Participation" sub "CollaborativeAction";
+
+association "uses1"
+	from [0..*] : "Participation"
+	to [1..*] : "Protocol";
+
+class "Protocol" <<kind>>;
+
+class "PriorityLevel" <<datatype>>;
+
+association "higherThan" <<formal>>
+	from [0..*] : "PriorityLevel"
+	to [0..*] : "PriorityLevel";
+
+class "Objective" <<mode>>;
+
+association
+	from [0..*] : "Objective"
+	to [1..1] : "PriorityLevel";
+association "depend on"
+	from [0..*] : "Objective"
+	to [0..*] : "Objective";
+association "/moreImportanteThen" <<formal>>
+	from [0..*] : "Objective"
+	to [0..*] : "Objective";
+
+class "CollaborationSession" <<event>>;
+
+association "happens in"
+	from [0..*] : "CollaborationSession"
+	to [1..*] : "Site";
+
+association "consumes"
+	from [1..*] : "CollaborationSession" {"extensional"}
+	to [0..*] : "CollaborationArtifact" ;
+
+association "generates"
+	from [0..*] : "CollaborationSession" {"existensional"}
+	to [0..*] : "CollaborationArtifact" ;
+
+association "aimed at"
+	from [1..1] : "CollaborationSession"
+	to [1..*] : "Objective";
+
+association "uses2"
+	from [0..*] : "CollaborationSession"
+	to [1..*] : "Protocol" ;
+
+association
+	from shared [1..1] : "CollaborationSession"
+	to [2..*] : "Participation" {"essential=true"};
+
+class "Language" <<kind>>;
+class "VerbalLanguage" <<subkind>>;
+class "NonVerbalLanguage" <<subkind>>;
+
+genset
+	gen super "Language" sub "VerbalLanguage"
+	gen super "Language" sub "NonVerbalLanguage";
+
+association "knows2"
+	from [0..*] : "Agent"
+	to [0..*] : "Language";
+
+class "Send" <<atomicEvent>>;
+class "Receive" <<atomicEvent>>;
+
+genset
+	gen super "Participation" sub "Send"
+	gen super "Participation" sub "Receive";
+
+association "caused by"
+	from [0..*] : "Receive"
+	to [1..1] : "Send";
+
+association
+	from shared [1..1] : "CollaborativeAction"
+	to [1..*] : "Receive" {"essential=true"} ;
+
+association
+	from shared [1..1] : "CollaborativeAction"
+	to [1..*] : "Send" {"essential=true"} ;
+	
+class "Message" <<kind>>;
+
+association "encoded"
+	from [0..*] : "Message"
+	to [1..1] : "Language";
+
+association "has1"
+	from [1..*] : "Send"
+	to [1..*] : "Message";
+
+association "has2"
+	from [1..*] : "Receive"
+	to [1..*] : "Message";

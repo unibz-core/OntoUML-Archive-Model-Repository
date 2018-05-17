@@ -1,0 +1,52 @@
+@startuml
+
+ class "CollaborationSession" <<event>>
+ class "Site" <<kind>>
+ class "CollaborativeAction" <<atomicEvent>>
+ "Site" <|-- "VirtualSite"
+ "Objective" "0..*" --  "0..*""Objective": "/moreImportanteThen" >
+ "Language" <|-- "VerbalLanguage"
+ class "Participation" <<atomicEvent>>
+ "Participation" <|-- "Receive"
+ class "Agent" <<category>>
+ "Participant" "0..*" --  "1..*""Protocol": "knows1" >
+ "Participation" "0..*" --  "1..*""Protocol": "uses1" >
+ "CollaborationSession" "0..*" --  "0..*""CollaborationArtifact": "generates" >
+ class "NonVerbalLanguage" <<subkind>>
+ class "PriorityLevel" <<datatype>>
+ "Receive" "0..*" --  "1..1""Send": "caused by" >
+ "CollaborationSession" "0..*" --  "1..*""Site": "happens in" >
+ class "Protocol" <<kind>>
+ "Site" <|-- "RealSite"
+ class "Artifact" <<category>>
+ "Participation" <|-- "CollaborativeAction"
+ class "Receive" <<atomicEvent>>
+ "Objective" "0..*" --  "1..1""PriorityLevel"
+ "CollaborationSession" "1..1" --  "1..*""Objective": "aimed at" >
+ "CollaborativeAction" "1..1" o--  "1..*""Send"
+ "Language" <|-- "NonVerbalLanguage"
+ class "VirtualSite" <<subkind>>
+ class "Message" <<kind>>
+ "CollaborationSession" "1..1" o--  "2..*""Participation"
+ "Message" "0..*" --  "1..1""Language": "encoded" >
+ "CollaborativeAction" "1..1" o--  "1..*""Receive"
+ "Send" "1..*" --  "1..*""Message": "has1" >
+ "Artifact" <|-- "CollaborationArtifact"
+ "Agent" "0..*" --  "0..*""Language": "knows2" >
+ class "CollaborationArtifact" <<roleMixin>>
+ "Participant" "1..1" --  "1..*""Participation": "executes" >
+ class "Send" <<atomicEvent>>
+ class "Participant" <<roleMixin>>
+ class "RealSite" <<subkind>>
+ class "Language" <<kind>>
+ "PriorityLevel" "0..*" --  "0..*""PriorityLevel": "higherThan" >
+ "Receive" "1..*" --  "1..*""Message": "has2" >
+ class "Objective" <<mode>>
+ "CollaborationSession" "1..*" --  "0..*""CollaborationArtifact": "consumes" >
+ "Agent" <|-- "Participant"
+ class "VerbalLanguage" <<subkind>>
+ "CollaborationSession" "0..*" --  "1..*""Protocol": "uses2" >
+ "Participation" <|-- "Send"
+ "Objective" "0..*" --  "0..*""Objective": "depend on" >
+
+@enduml
