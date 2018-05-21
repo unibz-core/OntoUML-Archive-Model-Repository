@@ -1,0 +1,106 @@
+publication "Towards an Ontology of Competition"
+authors "Tiago Prince Sales, Nicola Guarino, Giancarlo Guizzardi, and John Mylopoulos"
+
+class Agent <<category>>;
+
+class Competitor <<roleMixin>>;
+gen super Agent sub Competitor;
+
+class "Resource Demand" <<mode>>
+	att quantity;
+
+class "Collective Demand" <<relator>>
+	att "/ collectiveQuantity"
+	att "/ competitiveness";
+
+class Competition <<phase>>;
+class "Non-Competition" <<phase>>;
+
+genset disjoint complete
+	gen super "Collective Demand" sub Competition
+	gen super "Collective Demand" sub "Non-Competition";
+
+class Resource <<mixin>>
+	att availabity;
+
+class "Scare Resource" <<roleMixin>>;
+gen super Resource sub "Scare Resource";
+
+class "Single Resource" <<roleMixin>>;
+class "Resource Type" <<powertype>>;
+class "Resource Stock" <<collective>>;
+
+genset
+	gen super Resource sub "Single Resource"
+	gen super Resource sub "Resource Type"
+	gen super Resource sub "Resource Stock";
+
+association
+	end [2..*] : "Resource Demand"
+	end composite [0..*] : "Collective Demand";
+
+association
+	end [2..*] : "Single Resource"
+	end shared [0..*] : "Resource Stock";
+
+association "inheres in"
+	from [0..*] : "Resource Demand"
+	to [1..1] : Agent;
+
+association "ext. dep. on"
+	from [0..*] : "Resource Demand"
+	to [1..1] : Resource;
+
+association involves
+	from [0..*] : "Collective Demand"
+	to [2..*] : Agent;
+
+association involves_1
+	from [0..*] : "Collective Demand"
+	to [1..1] : Resource;
+
+association "/competes with"
+	from [1..*] : Competitor
+	to [1..*] : Competitor;
+
+association "/involves"
+	from [1..*] : Competition
+	to [2..*] : Competitor;
+	
+association "/involves_2"
+	from [1..*] : Competition
+	to [1..1] : "Scare Resource";
+
+association categorizes
+	from [1..*] : "Resource Type"
+	to [0..*] : "Single Resource";
+	
+association "defined by"
+	from [0..*] : "Resource Stock"
+	to [1..1] : "Resource Type";
+
+class "Value Proposition" <<relator>>;
+
+class "Demand for Market" <<mode>>;
+
+class "Market Competition" <<relator>>;
+
+class Supplier <<roleMixin>>;
+
+class "Market Competitor" <<roleMixin>>;
+gen super Supplier sub "Market Competitor";
+
+class "Direct Competitor" <<roleMixin>>;
+class "Indirect Competitor" <<roleMixin>>;
+genset complete
+	gen super "Market Competitor" sub "Direct Competitor"
+	gen super "Market Competitor" sub "Indirect Competitor";
+
+class Market <<collective>>;
+
+class "Simple Market" <<subkind>>;
+class "Composed Market" <<subkind>>;
+genset disjoint complete
+	gen super Market sub "Simple Market"
+	gen super Market sub "Composed Market";
+

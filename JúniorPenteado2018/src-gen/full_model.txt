@@ -1,0 +1,25 @@
+@startuml
+
+ Relationship <|-- Composition
+ Relationship --  "1..1"Concern: target >
+ Concern -- Concern: isRelatedTo >
+ Relationship --  "1..1"Concern: source >
+ class Concern <<kind>>
+ Concern <|-- FunctionalConcern
+ class Contribution <<relator>>
+ Relationship <|-- Contribution
+ class Source <<kind>>
+ class FunctionalConcern <<subkind>>
+ Relationship <|-- Dependency
+ Concern o--  "0..*"Keyword: hasKw >
+ Concern o--  "0..*"Source: hasSource >
+ Concern <|-- NonFunctionalConcern
+ class Relationship <<relator>>
+ class NonFunctionalConcern <<subkind>>
+ class Dependency <<relator>>
+ class ContributionType <<enum>>
+ class Keyword <<kind>>
+ class SourceType <<enum>>
+ class Composition <<relator>>
+
+@enduml

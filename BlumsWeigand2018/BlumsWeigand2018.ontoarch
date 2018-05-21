@@ -67,7 +67,7 @@ association fulfill
 	end navigable [0..*] : "Party's Obligation"
 	end [1..1] : Transfer;
 
-association fulfill2
+association fulfill_2
 	end navigable [0..*] : "Party's Right"
 	end [1..1] : Receipt;
 
@@ -156,4 +156,140 @@ gen super Resource sub Asset;
 class Obligation;
 abstract class "Liability (Equity)";
 gen super Obligation sub "Liability (Equity)";
+
+association "creates/results in"
+	end [1..1] : "Offer//Agreement"
+	end  navigable [1..1] : "Offering//Contract";
+
+association involve
+	end  [1..1] : "Offer//Agreement"
+	end navigable [2..2] : "Party//Counterpart";
+
+association consensus
+	end [1..1] : "Offer//Agreement"
+	end [0..*] : "Economic Exchange";
+
+association "is bound to"
+	end [2..2] : "Party//Counterpart"
+	end [1..*] : "Offering//Contract";
+
+association loss
+	end : Revaluation
+	end navigable : "Offering//Contract";
+
+association gain
+	end [0..*] : Revaluation
+	end navigable [0..*] : "Offering//Contract";
+
+association
+	end composite : "Offering//Contract"
+	end : "Contract Clause";
+
+association "performed by"
+	end [1..1] : "Economic Exchange"
+	end navigable [2..2] : "Party//Counterpart";
+
+association "market value change"
+	end [1..1] : "Economic Exchange"
+	end navigable [0..*] : Revaluation;
+
+association "is governed by"
+	end [1..1] : "Economic Exchange"
+	end navigable [0..*] : "Offering//Contract";
+
+association "obligations/rights remain"
+	end [1..1] : "Economic Exchange"
+	end navigable [1..*] : "Transfer//Receipt";
+
+association
+	end composite : "Contract Clause"
+	end : Asset;
+
+association
+	end composite : "Contract Clause"
+	end : "Liability (Equity)";
+	
+association
+	end composite [1..1] : "Contract Clause"
+	end [0..*] : "Performance Obligation - POB//Right - PRT";
+
+association
+	end composite : "Performance Obligation - POB//Right - PRT"
+	end : "Exchange Obligation//Right";
+
+association
+	end composite : "Contract Asset//Liability"
+	end : "POB fulfill Asset//Liability";
+
+association
+	end composite : "Performance Payable - POB//Receivable - PRT"
+	end : "Payable//Receivable";
+
+association fulfill_3
+	end [1..*] : "Transfer//Receipt"
+	end navigable [0..*] : "Exchange Obligation//Right" ;
+
+association "POB//PRT fulfilled"
+	end [0..*] : "Transfer//Receipt"
+	end navigable [1..1] : "Revenue//Product Recognition" ;
+
+association increase
+	end [1..1] : "Transfer//Receipt"
+	end navigable [0..*] :  "POB fulfill Asset//Liability" ;
+
+association "POB payable//PRT receivable fulfilled"
+	end [0..*] : "Transfer//Receipt"
+	end navigable [0..*] : "Payable//Receivable Settlement" ;
+
+association fulfill_4
+	end [1..1] : "Transfer//Receipt"
+	end navigable [0..*] : "Payable//Receivable" ;
+
+association "increase//decrease"
+	end [1..1] : "Transfer//Receipt"
+	end navigable [0..*] : "Liability (Equity)" ;
+
+association "decrease//increase"
+	end [1..1] : "Transfer//Receipt"
+	end navigable [0..*] : Asset ;
+
+association decrease
+	end [1..1] : "Payable//Receivable Settlement"
+	end navigable [0..*] : "POB fulfill Asset//Liability";
+
+association fulfill_5
+	end [1..1] : "Payable//Receivable Settlement"
+	end navigable [0..*] : "Performance Payable - POB//Receivable - PRT" ;
+
+association "decrease (revenue)"
+	end [1..1] : "Payable//Receivable Settlement"
+	end navigable [0..*] : "Performance Payable - POB//Receivable - PRT" ;
+
+association decrease_2
+	end [1..1] : "Revenue//Product Recognition"
+	end navigable [0..*] : "POB fulfill Asset//Liability" ;
+
+association "increase (revenue)"
+	end [1..1] : "Revenue//Product Recognition"
+	end navigable [0..*] : "Contract Asset//Liability" ;
+
+association "all POB's//PRT's fulfilled"
+	end [1..1] : "Revenue//Product Recognition"
+	end navigable [0..*] : "Receivable//Payable Recognition" ;
+
+association fulfill_6
+	end [1..1] : "Revenue//Product Recognition"
+	end navigable [0..*] : "Performance Obligation - POB//Right - PRT" ;
+
+association decrease_3
+	end [1..1] : "Receivable//Payable Recognition"
+	end navigable [0..*] : "Contract Asset//Liability" ;
+	
+association fulfill_7
+	end [1..1] : "Receivable//Payable Recognition"
+	end navigable [0..*] : "Contract Clause" ;
+	
+association "increase receivable//payable"
+	end [1..1] : "Receivable//Payable Recognition"
+	end navigable [0..*] : "Performance Payable - POB//Receivable - PRT" ;
 

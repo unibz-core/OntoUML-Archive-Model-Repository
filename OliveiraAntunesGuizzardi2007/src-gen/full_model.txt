@@ -1,52 +1,52 @@
 @startuml
 
- class "CollaborationSession" <<event>>
+ class "Objective" <<mode>>
+ class "Participant" <<roleMixin>>
+ class "Protocol" <<kind>>
+ class "NonVerbalLanguage" <<subkind>>
+ class "Receive" <<atomicEvent>>
+ "CollaborationSession" "0..*" --  "1..*""Protocol": "uses2" >
+ "Participation" <|-- "Receive"
  class "Site" <<kind>>
- class "CollaborativeAction" <<atomicEvent>>
- "Site" <|-- "VirtualSite"
- "Objective" "0..*" --  "0..*""Objective": "/moreImportanteThen" >
+ "CollaborationSession" "1..1" o--  "2..*""Participation"
+ "CollaborativeAction" "1..1" o--  "1..*""Receive"
+ "CollaborationSession" "1..*" --  "0..*""CollaborationArtifact": "consumes" >
+ class "VirtualSite" <<subkind>>
+ "Participation" <|-- "CollaborativeAction"
+ class "PriorityLevel" <<datatype>>
+ "Site" <|-- "RealSite"
+ "CollaborationSession" "0..*" --  "1..*""Site": "happens in" >
+ "Participation" "0..*" --  "1..*""Protocol": "uses1" >
  "Language" <|-- "VerbalLanguage"
  class "Participation" <<atomicEvent>>
- "Participation" <|-- "Receive"
- class "Agent" <<category>>
- "Participant" "0..*" --  "1..*""Protocol": "knows1" >
- "Participation" "0..*" --  "1..*""Protocol": "uses1" >
- "CollaborationSession" "0..*" --  "0..*""CollaborationArtifact": "generates" >
- class "NonVerbalLanguage" <<subkind>>
- class "PriorityLevel" <<datatype>>
- "Receive" "0..*" --  "1..1""Send": "caused by" >
- "CollaborationSession" "0..*" --  "1..*""Site": "happens in" >
- class "Protocol" <<kind>>
- "Site" <|-- "RealSite"
- class "Artifact" <<category>>
- "Participation" <|-- "CollaborativeAction"
- class "Receive" <<atomicEvent>>
- "Objective" "0..*" --  "1..1""PriorityLevel"
+ "Objective" "0..*" --  "0..*""Objective": "/moreImportanteThen" >
  "CollaborationSession" "1..1" --  "1..*""Objective": "aimed at" >
- "CollaborativeAction" "1..1" o--  "1..*""Send"
- "Language" <|-- "NonVerbalLanguage"
- class "VirtualSite" <<subkind>>
- class "Message" <<kind>>
- "CollaborationSession" "1..1" o--  "2..*""Participation"
- "Message" "0..*" --  "1..1""Language": "encoded" >
- "CollaborativeAction" "1..1" o--  "1..*""Receive"
- "Send" "1..*" --  "1..*""Message": "has1" >
- "Artifact" <|-- "CollaborationArtifact"
- "Agent" "0..*" --  "0..*""Language": "knows2" >
- class "CollaborationArtifact" <<roleMixin>>
- "Participant" "1..1" --  "1..*""Participation": "executes" >
- class "Send" <<atomicEvent>>
- class "Participant" <<roleMixin>>
- class "RealSite" <<subkind>>
  class "Language" <<kind>>
- "PriorityLevel" "0..*" --  "0..*""PriorityLevel": "higherThan" >
- "Receive" "1..*" --  "1..*""Message": "has2" >
- class "Objective" <<mode>>
- "CollaborationSession" "1..*" --  "0..*""CollaborationArtifact": "consumes" >
- "Agent" <|-- "Participant"
- class "VerbalLanguage" <<subkind>>
- "CollaborationSession" "0..*" --  "1..*""Protocol": "uses2" >
- "Participation" <|-- "Send"
+ "CollaborativeAction" "1..1" o--  "1..*""Send"
+ "Artifact" <|-- "CollaborationArtifact"
+ "Participant" "1..1" --  "1..*""Participation": "executes" >
  "Objective" "0..*" --  "0..*""Objective": "depend on" >
+ class "Message" <<kind>>
+ "Participant" "0..*" --  "1..*""Protocol": "knows1" >
+ "Objective" "0..*" --  "1..1""PriorityLevel"
+ "Receive" "1..*" --  "1..*""Message": "has2" >
+ "PriorityLevel" "0..*" --  "0..*""PriorityLevel": "higherThan" >
+ class "Agent" <<category>>
+ "Agent" "0..*" --  "0..*""Language": "knows2" >
+ "Receive" "0..*" --  "1..1""Send": "caused by" >
+ class "VerbalLanguage" <<subkind>>
+ class "RealSite" <<subkind>>
+ class "CollaborationArtifact" <<roleMixin>>
+ class "Send" <<atomicEvent>>
+ "Language" <|-- "NonVerbalLanguage"
+ "Agent" <|-- "Participant"
+ "Site" <|-- "VirtualSite"
+ "CollaborationSession" "0..*" --  "0..*""CollaborationArtifact": "generates" >
+ class "Artifact" <<category>>
+ "Send" "1..*" --  "1..*""Message": "has1" >
+ "Message" "0..*" --  "1..1""Language": "encoded" >
+ class "CollaborationSession" <<event>>
+ "Participation" <|-- "Send"
+ class "CollaborativeAction" <<atomicEvent>>
 
 @enduml

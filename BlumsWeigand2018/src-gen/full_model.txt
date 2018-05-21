@@ -1,76 +1,110 @@
 @startuml
 
- class "Offering//Contract" 
- class "Performance_Obligation_-_POB//Right_-_PRT" 
- class "Payable//Receivable" 
- "Economic_Event" <|-- "Offer//Agreement"
- class "Offer//Agreement" 
- "Unit_of_Account" *-- "Performance_Right_(PRT)"
- class "Party//Counterpart" 
- "Economic_Relator" <|-- "Asset//Liability"
- class "POB_fulfill_Asset//Liability" 
- "Economic_Relator" <|-- "Party's_Right"
- "Asset//Liability" <|-- "Contract_Asset//Liability"
- abstract class "Liability_(Equity)" 
- "Economic_Exchange" <|-- Receipt
- abstract class Asset 
- class "Unit_of_Account" <<collective>>
- abstract class Party 
- "Economic_Event" <|-- Revaluation
- "Party's_Obligation" "0..*" --  "1..1"Transfer: fulfill
- "Liability//Asset" <|-- "Performance_Payable_-_POB//Receivable_-_PRT"
- Party "1..1" --  "0..*""Asset//Liability": "controls/cannot avoid"
- class "Economic_Relator" <<relator>>
- "Economic_Relator" <|-- "Party's_Obligation"
- "Economic_Exchange" <|-- "Transfer//Receipt"
- "Economic_Exchange" --  "1..1"Counterparty: participation2
- class "Revenue//Product_Recognition" 
- class "Liability//Asset" 
- class "Payable//Receivable_Settlement" 
- class "Transfer//Receipt" 
- "Unit_of_Account" *-- "Performance_Obligation_(POB)"
- "Party's_Right" "0..*" --  "1..1"Receipt: fulfill2
- class Receipt 
- class "Party's_Obligation" <<relator>>
- class "Market_Participant" 
- "Performance_Right_(PRT)" *-- "Party's_Right"
- "Unit_of_Account" <|-- "Offering//Contract"
- "Asset//Liability" <|-- "POB_fulfill_Asset//Liability"
- class Obligation 
- "Market_Participant" <|-- Counterparty
- class "Economic_Exchange" 
- class "Receivable//Payable_Recognition" 
- class "Performance_Right_(PRT)" <<collective>>
- Obligation <|-- "Liability_(Equity)"
- "Liability//Asset" <|-- "Payable//Receivable"
- "Economic_Exchange" "1..1" --  "0..*""Economic_Relator": outflow
- class "Exchange_Obligation//Right" 
- class Transfer 
- class "Party's_Right" <<relator>>
- class "Performance_Obligation_(POB)" <<collective>>
- "Market_Participant" <|-- "Party//Counterpart"
- "Economic_Exchange" <|-- "Receivable//Payable_Recognition"
- class "Underlying_Object" <<category>>
- "Economic_Relator" --  "1..*"Party
- class Resource 
- Resource <|-- Asset
- "Economic_Exchange" <|-- "Revenue//Product_Recognition"
- abstract class Counterparty 
  abstract class "Economic_Event" 
- "Economic_Relator" <|-- "Performance_Obligation_-_POB//Right_-_PRT"
- "Market_Participant" <|-- Party
- "Economic_Exchange" <|-- Transfer
+ "Economic_Exchange" <|-- Receipt
+ Revaluation "0..*" --  "0..*""Offering//Contract": gain
+ "Receivable//Payable_Recognition" "1..1" --  "0..*""Contract_Asset//Liability": decrease_3
+ "Liability//Asset" <|-- "Payable//Receivable"
  class "Performance_Payable_-_POB//Receivable_-_PRT" 
- "Economic_Relator" <|-- "Exchange_Obligation//Right"
- abstract class "Asset//Liability" <<roleMixin>>
- "Economic_Relator" "0..*" --  "0..*""Underlying_Object": over
+ class Obligation 
+ "Economic_Exchange" <|-- "Payable//Receivable_Settlement"
+ "Economic_Exchange" "1..1" --  "1..*""Transfer//Receipt": "obligations/rights remain"
+ "Offer//Agreement" "1..1" --  "0..*""Economic_Exchange": consensus
+ "Asset//Liability" <|-- "POB_fulfill_Asset//Liability"
+ class "Unit_of_Account" <<collective>>
+ "Economic_Exchange" "1..1" --  "0..*""Economic_Relator": outflow
+ class "Payable//Receivable_Settlement" 
+ "Revenue//Product_Recognition" "1..1" --  "0..*""Performance_Obligation_-_POB//Right_-_PRT": fulfill_6
+ class "POB_fulfill_Asset//Liability" 
+ "Asset//Liability" <|-- "Contract_Asset//Liability"
+ class "Exchange_Obligation//Right" 
+ Resource <|-- Asset
+ "Market_Participant" <|-- "Party//Counterpart"
+ "Economic_Relator" <|-- "Asset//Liability"
+ Obligation <|-- "Liability_(Equity)"
+ "Economic_Exchange" "1..1" --  "2..2""Party//Counterpart": "performed by"
+ class "Party's_Right" <<relator>>
+ "Economic_Exchange" <|-- "Transfer//Receipt"
+ "Performance_Payable_-_POB//Receivable_-_PRT" *-- "Payable//Receivable"
+ class "Liability//Asset" 
+ "Contract_Asset//Liability" *-- "POB_fulfill_Asset//Liability"
+ "Party's_Right" "0..*" --  "1..1"Receipt: fulfill_2
+ "Market_Participant" <|-- Party
+ "Payable//Receivable_Settlement" "1..1" --  "0..*""Performance_Payable_-_POB//Receivable_-_PRT": fulfill_5
+ class "Underlying_Object" <<category>>
+ "Performance_Right_(PRT)" *-- "Party's_Right"
+ "Revenue//Product_Recognition" "1..1" --  "0..*""Contract_Asset//Liability": "increase (revenue)"
+ "Contract_Clause" *-- Asset
+ "Economic_Exchange" <|-- "Revenue//Product_Recognition"
+ "Payable//Receivable_Settlement" "1..1" --  "0..*""Performance_Payable_-_POB//Receivable_-_PRT": "decrease (revenue)"
+ class "Economic_Exchange" 
  "Economic_Exchange" --  "1..1"Party: participation
- "Economic_Relator" --  "1..*"Counterparty
+ class "Party//Counterpart" 
  class Revaluation 
  "Performance_Obligation_(POB)" *-- "Party's_Obligation"
- "Economic_Exchange" <|-- "Payable//Receivable_Settlement"
- class "Contract_Asset//Liability" 
+ "Transfer//Receipt" "1..1" --  "0..*""Liability_(Equity)": "increase//decrease"
+ class Resource 
+ "Economic_Exchange" <|-- Transfer
+ "Transfer//Receipt" "1..1" --  "0..*""Payable//Receivable": fulfill_4
+ "Unit_of_Account" <|-- "Offering//Contract"
+ "Party's_Obligation" "0..*" --  "1..1"Transfer: fulfill
+ abstract class "Liability_(Equity)" 
+ "Offer//Agreement" "1..1" --  "1..1""Offering//Contract": "creates/results in"
+ "Contract_Clause" *-- "Liability_(Equity)"
+ "Receivable//Payable_Recognition" "1..1" --  "0..*""Performance_Payable_-_POB//Receivable_-_PRT": "increase receivable//payable"
+ abstract class "Asset//Liability" <<roleMixin>>
+ "Revenue//Product_Recognition" "1..1" --  "0..*""Receivable//Payable_Recognition": "all POB's//PRT's fulfilled"
+ "Economic_Relator" <|-- "Party's_Right"
+ class "Market_Participant" 
+ class "Performance_Right_(PRT)" <<collective>>
+ class "Party's_Obligation" <<relator>>
+ "Party//Counterpart" "2..2" --  "1..*""Offering//Contract": "is bound to"
+ "Contract_Clause" "1..1" *--  "0..*""Performance_Obligation_-_POB//Right_-_PRT"
+ Revaluation -- "Offering//Contract": loss
+ "Offering//Contract" *-- "Contract_Clause"
+ "Performance_Obligation_-_POB//Right_-_PRT" *-- "Exchange_Obligation//Right"
+ abstract class Party 
+ abstract class Asset 
+ class "Economic_Relator" <<relator>>
+ class Transfer 
+ "Offer//Agreement" "1..1" --  "2..2""Party//Counterpart": involve
+ "Economic_Relator" --  "1..*"Counterparty
+ "Payable//Receivable_Settlement" "1..1" --  "0..*""POB_fulfill_Asset//Liability": decrease
+ class "Receivable//Payable_Recognition" 
+ "Economic_Exchange" <|-- "Receivable//Payable_Recognition"
+ "Economic_Exchange" "1..1" --  "0..*""Offering//Contract": "is governed by"
+ "Liability//Asset" <|-- "Performance_Payable_-_POB//Receivable_-_PRT"
+ class "Payable//Receivable" 
  "Economic_Exchange" "1..1" --  "0..*""Economic_Relator": inflow
+ "Unit_of_Account" *-- "Performance_Right_(PRT)"
+ "Transfer//Receipt" "1..*" --  "0..*""Exchange_Obligation//Right": fulfill_3
+ "Receivable//Payable_Recognition" "1..1" --  "0..*""Contract_Clause": fulfill_7
+ class "Revenue//Product_Recognition" 
+ class "Performance_Obligation_(POB)" <<collective>>
+ "Revenue//Product_Recognition" "1..1" --  "0..*""POB_fulfill_Asset//Liability": decrease_2
+ "Economic_Relator" <|-- "Party's_Obligation"
+ "Economic_Relator" "0..*" --  "0..*""Underlying_Object": over
+ "Transfer//Receipt" "0..*" --  "0..*""Payable//Receivable_Settlement": "POB payable//PRT receivable fulfilled"
+ class "Contract_Asset//Liability" 
+ class "Transfer//Receipt" 
+ class Receipt 
  class "Contract_Clause" <<relator>>
+ class "Offer//Agreement" 
+ "Economic_Relator" --  "1..*"Party
+ "Economic_Relator" <|-- "Exchange_Obligation//Right"
+ "Transfer//Receipt" "0..*" --  "1..1""Revenue//Product_Recognition": "POB//PRT fulfilled"
+ Party "1..1" --  "0..*""Asset//Liability": "controls/cannot avoid"
+ "Market_Participant" <|-- Counterparty
+ "Economic_Event" <|-- "Offer//Agreement"
+ "Unit_of_Account" *-- "Performance_Obligation_(POB)"
+ "Economic_Exchange" "1..1" --  "0..*"Revaluation: "market value change"
+ "Transfer//Receipt" "1..1" --  "0..*""POB_fulfill_Asset//Liability": increase
+ class "Offering//Contract" 
+ "Transfer//Receipt" "1..1" --  "0..*"Asset: "decrease//increase"
+ "Economic_Event" <|-- Revaluation
+ "Economic_Relator" <|-- "Performance_Obligation_-_POB//Right_-_PRT"
+ abstract class Counterparty 
+ "Economic_Exchange" --  "1..1"Counterparty: participation2
+ class "Performance_Obligation_-_POB//Right_-_PRT" 
 
 @enduml

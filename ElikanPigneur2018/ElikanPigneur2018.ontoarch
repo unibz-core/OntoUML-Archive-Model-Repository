@@ -1,0 +1,14 @@
+publication "Brand Identity Ontology"
+authors "Dina Elikan and Yves Pigneur"
+ontology "Brand Identity Ontology"
+
+abstract class Vision <<category>>;
+
+class Organization <<role>>;
+gen super Vision sub Organization;
+
+class Purpose <<subkind>>;
+
+class ReasonofExistence <<subkind>>;
+
+abstract class Positioning <<category>>;

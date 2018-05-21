@@ -1,0 +1,113 @@
+publication "OntoREA© Accounting and Finance Model: Including Option Contracts in the MDD-Context"
+authors "Christian Fischer-Pauzenberger, Matthias Ondra, Walter S.A. Schwaiger"
+ontology "OntoREA© Accounting and Finance Model"
+
+class "Derivative Instrument" <<collective>>;
+
+class Asset <<phase>>;
+class Liability <<phase>>;
+class "Off Balance" <<phase>>;
+
+genset disjoint complete
+	gen super "Derivative Instrument" sub Asset
+	gen super "Derivative Instrument" sub Liability
+	gen super "Derivative Instrument" sub "Off Balance";
+
+class "Economic Resource" <<kind>>;
+
+class Equity <<phase>>;
+class Claim <<phase>>;
+
+genset disjoint complete
+	gen super "Economic Resource" sub Asset
+	gen super "Economic Resource" sub Liability
+	gen super "Economic Resource" sub Equity
+	gen super "Economic Resource" sub Claim;
+
+class "Economic Event" <<kind>>;
+
+class "Debit Event" <<subkind>>;
+class "Credit Event" <<subkind>>;
+
+genset disjoint complete
+	gen super "Economic Event" sub "Credit Event"
+	gen super "Economic Event" sub "Debit Event";
+
+class "Economic Agent" <<kind>>;
+
+class "Balance Duality" <<relator>>;
+
+class "Balanced Reciprocity (Economic Contract)" <<relator>>;
+
+class Commitment <<kind>>;
+
+class "Debit Commitment" <<subkind>>;
+class "Credit Commitment" <<subkind>>;
+
+genset disjoint complete
+	gen super Commitment sub "Debit Commitment"
+	gen super Commitment sub "Credit Commitment";
+	
+association <<memberOf>>
+	end composite : "Derivative Instrument"
+	end [2..2] : "Economic Resource";
+
+association "out-/inflow" <<formal>>
+	end [1..*] : "Economic Resource"
+	end [1..1] : "Credit Event";
+
+association "in/-outflow" <<formal>>
+	end [1..*] : "Economic Resource"
+	end [1..1] : "Debit Event";
+
+association "committed inflow" <<formal>>
+	end [1..*] : "Economic Resource"
+	end [0..1] : "Debit Commitment";
+
+association "committed outflow" <<formal>>
+	end [1..*] : "Economic Resource"
+	end [0..1] : "Credit Commitment";
+
+association participation <<formal>>
+	end [0..*] : "Economic Event"
+	end [2..2] : "Economic Agent";
+
+association participation_2 <<formal>>
+	end [0..1] : "Balance Duality"
+	end [2..2] : "Economic Agent";
+
+association fulfillment <<formal>>
+	end [1..*] : "Economic Event"
+	end [0..1] : Commitment;
+
+association duality <<material>>
+	end [1..*] : "Debit Event"
+	end [1..*] : "Credit Event";
+
+derivation "value constraint"
+	class "Balance Duality"
+	relation duality;
+
+association <<mediation>>
+	end [1..*] : "Debit Event"
+	end [1..1] : "Balance Duality";
+
+association <<mediation>>
+	end [1..*] : "Credit Event"
+	end [1..1] : "Balance Duality";
+
+association reciprocity <<material>>
+	end [1..*] : "Debit Commitment"
+	end [1..*] : "Credit Commitment";
+
+derivation "present value constraint"
+	class "Balanced Reciprocity (Economic Contract)"
+	relation reciprocity ;
+
+association <<mediation>>
+	end [1..*] : "Debit Commitment"
+	end [1..1] : "Balanced Reciprocity (Economic Contract)";
+
+association <<mediation>>
+	end [1..*] : "Credit Commitment"
+	end [1..1] : "Balanced Reciprocity (Economic Contract)";

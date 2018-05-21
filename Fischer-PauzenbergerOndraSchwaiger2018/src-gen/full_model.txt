@@ -1,0 +1,47 @@
+@startuml
+
+ "Economic_Resource" <|-- Claim
+ class "Credit_Event" <<subkind>>
+ class Commitment <<kind>>
+ "Economic_Event" "0..*" --  "2..2""Economic_Agent": participation
+ class "Economic_Event" <<kind>>
+ class Asset <<phase>>
+ "Economic_Resource" "1..*" --  "1..1""Credit_Event": "out-/inflow"
+ class "Debit_Commitment" <<subkind>>
+ "Balance_Duality" "0..1" --  "2..2""Economic_Agent": participation_2
+ "Economic_Event" "1..*" --  "0..1"Commitment: fulfillment
+ "Debit_Commitment" "1..*" --  "1..1""Balanced_Reciprocity_(Economic_Contract)"
+ class "Economic_Resource" <<kind>>
+ class Claim <<phase>>
+ class "Credit_Commitment" <<subkind>>
+ class "Balance_Duality" <<relator>>
+ Commitment <|-- "Debit_Commitment"
+ class "Off_Balance" <<phase>>
+ "Derivative_Instrument" <|-- Liability
+ "Derivative_Instrument" <|-- "Off_Balance"
+ "Credit_Commitment" "1..*" --  "1..1""Balanced_Reciprocity_(Economic_Contract)"
+ "Economic_Resource" <|-- Equity
+ "Economic_Resource" "1..*" --  "0..1""Credit_Commitment": "committed outflow"
+ class "Derivative_Instrument" <<collective>>
+ "Economic_Event" <|-- "Credit_Event"
+ "Debit_Commitment" "1..*" --  "1..*""Credit_Commitment": reciprocity
+ "Credit_Event" "1..*" --  "1..1""Balance_Duality"
+ class "Balanced_Reciprocity_(Economic_Contract)" <<relator>>
+ "Economic_Resource" <|-- Asset
+ "Debit_Event" "1..*" --  "1..*""Credit_Event": duality
+ "Derivative_Instrument" *--  "2..2""Economic_Resource"
+ 
+ "Economic_Resource" "1..*" --  "0..1""Debit_Commitment": "committed inflow"
+ class Equity <<phase>>
+ class Liability <<phase>>
+ "Debit_Event" "1..*" --  "1..1""Balance_Duality"
+ Commitment <|-- "Credit_Commitment"
+ "Economic_Event" <|-- "Debit_Event"
+ class "Economic_Agent" <<kind>>
+ "Derivative_Instrument" <|-- Asset
+ "Economic_Resource" <|-- Liability
+ class "Debit_Event" <<subkind>>
+ "Economic_Resource" "1..*" --  "1..1""Debit_Event": "in/-outflow"
+ 
+
+@enduml

@@ -1,13 +1,13 @@
 @startuml
 
-Object <|-- Technical_System
-Agent <|-- Organization
-Object <<object>>
-Person <<kind>>
-Agent <|-- Person
-Agent <<category>>
-Organization <<kind>>
-Technical_System <<category>>
-Object <|-- Agent
+ class "Person" <<kind>>
+ "Agent" <|-- "Person"
+ "Agent" <|-- "Organization"
+ "Object" <|-- "Technical_System"
+ class "Agent" <<category>>
+ "Object" <|-- "Agent"
+ class "Technical_System" <<category>>
+ class "Object" <<object>>
+ class "Organization" <<kind>>
 
 @enduml

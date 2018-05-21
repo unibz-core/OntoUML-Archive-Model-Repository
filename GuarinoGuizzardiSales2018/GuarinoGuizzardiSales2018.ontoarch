@@ -1,0 +1,77 @@
+publication "On the Ontological Nature of REA Core Relations"
+authors "Nicola Guarino, Giancarlo Guizzardi, and Tiago Prince Sales"
+
+class Agent <<category>>;
+
+class "Economic Agent" <<roleMixin>>;
+gen super Agent sub "Economic Agent";
+
+class Provider <<roleMixin>>;
+gen super "Economic Agent" sub Provider;
+
+class Receiver <<roleMixin>>;
+gen super "Economic Agent" sub Receiver;
+
+class "Economic Event" <<event>>;
+
+class "Sell Event" <<subkind>>;
+gen super "Economic Event" sub "Sell Event";
+
+class "Cash Event" <<subkind>>;
+gen super "Economic Event" sub "Cash Event";
+
+class "Economic Exchange" <<event>>;
+
+class "Bilateral Economic Contract" <<relator>>;
+
+class "Good Transfer Conditional Commitment" <<mode>>;
+
+class "Money Transfer Conditional Commitment" <<mode>>;
+
+association
+	end composite [1..1] : "Bilateral Economic Contract"
+	end [1..*] : "Good Transfer Conditional Commitment";
+	
+association
+	end composite [1..1] : "Bilateral Economic Contract"
+	end [1..*] : "Money Transfer Conditional Commitment";
+
+association
+	end composite [1..1] : "Economic Exchange"
+	end [1..1] : "Cash Event";
+
+association
+	end composite [1..1] : "Economic Exchange"
+	end [1..1] : "Sell Event";
+
+association involves
+	end navigable [1..1] : Provider
+	end [1..*] : "Bilateral Economic Contract";
+
+association involves_2
+	end navigable [1..1] : Receiver
+	end [1..*] : "Bilateral Economic Contract";
+
+association "inheres in"
+	end navigable [1..1] : Provider
+	end [1..*] : "Good Transfer Conditional Commitment";
+
+association "inheres in_2"
+	end navigable [1..1] : Receiver
+	end [1..*] : "Money Transfer Conditional Commitment";
+
+association fulfills
+	end navigable [1..1] : "Good Transfer Conditional Commitment"
+	end [0..1] : "Sell Event";
+
+association fulfills_2
+	end navigable [1..1] : "Money Transfer Conditional Commitment"
+	end [0..1] : "Cash Event";
+	
+association "reciprocity (mutual existential dependence)"
+	end [1..1] :"Good Transfer Conditional Commitment"
+	end [1..1] :"Money Transfer Conditional Commitment";
+
+association "/ duality (derived relation)"
+	end [1..1] :"Sell Event"
+	end [1..1] :"Cash Event";

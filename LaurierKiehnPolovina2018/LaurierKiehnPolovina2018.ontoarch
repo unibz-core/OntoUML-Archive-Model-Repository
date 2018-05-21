@@ -1,0 +1,144 @@
+publication "REA2: A unified formalisation of the Resource-Event-Agent Ontology"
+authors "LAURIER, Wim, KIEHN, Jesper and POLOVINA, Simon"
+ontology "REA2 Meta-Model"
+
+
+class "stock-flow" <<relator>>;
+
+class inflow <<relator>>;
+gen super "stock-flow" sub inflow;
+
+class outflow <<relator>>;
+gen super "stock-flow" sub outflow;
+
+class "economic-event" <<roleMixin>>;
+
+class "increment-event" <<roleMixin>>;
+gen super "economic-event" sub "increment-event";
+
+class "decrement-event" <<roleMixin>>;
+gen super "economic-event" sub "decrement-event";
+
+class "economic-resource" <<roleMixin>>;
+
+association
+	end : "economic-resource"
+	end : "stock-flow";
+
+association
+	end : "economic-resource"
+	end : inflow;
+
+association
+	end : "economic-resource"
+	end : outflow;
+
+association
+	end : "stock-flow"
+	end : "economic-event";
+
+association
+	end : inflow
+	end : "increment-event";
+
+association
+	end : outflow
+	end : "decrement-event";
+
+class transformation <<kind>>;
+
+class produce <<role>>;
+class consume <<role>>;
+genset
+	gen super transformation sub produce
+	gen super transformation sub consume;
+
+gen super "increment-event" sub produce;
+gen super "decrement-event" sub consume;
+
+class duality <<relator>>;
+
+class "transfer-duality" <<relator>>;
+gen super duality sub "transfer-duality";
+
+class transfer <<kind>>;
+
+class take <<role>>;
+class give <<role>>;
+genset
+	gen super transfer sub take
+	gen super transfer sub give;
+
+class "transformation-duality" <<relator>>;
+gen super duality sub "transformation-duality";
+
+association
+	end : duality
+	end : "increment-event";
+
+association
+	end : duality
+	end : "decrement-event";
+
+association
+	end : take
+	end : "transfer-duality";
+
+association
+	end : give
+	end : "transfer-duality";
+
+association
+	end : produce
+	end : "transformation-duality";
+
+association
+	end : consume
+	end : "transformation-duality";
+
+class participation <<relator>>;
+
+class "inside-party" <<relator>>;
+gen super participation sub "inside-party";
+
+class "outside-party" <<relator>>;
+gen super participation sub "outside-party";
+
+class "from" <<relator>>;
+class "to" <<relator>>;
+genset
+	gen super "outside-party" sub "from"
+	gen super "outside-party" sub "to";
+
+class "economic-agent" <<roleMixin>>;
+
+class "trading-partner" <<roleMixin>>;
+gen super "economic-agent" sub "trading-partner";
+
+association
+	end : participation
+	end : "economic-event";
+
+association
+	end : participation
+	end : "economic-agent";
+
+association
+	end : "outside-party"
+	end : "trading-partner";
+
+association
+	end : "from"
+	end : "trading-partner";
+
+association
+	end : "to"
+	end : "trading-partner";
+
+association
+	end : "from"
+	end : take;
+
+association
+	end : "to"
+	end : give;

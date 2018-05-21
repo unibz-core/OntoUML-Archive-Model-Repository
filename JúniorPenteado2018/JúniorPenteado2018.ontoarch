@@ -1,0 +1,57 @@
+publication "ObasCId(-Tool): an ontologically based approach for concern identification and classification and its computational support"
+authors "Paulo Afonso Parreira Júnior and Rosângela Aparecida Dellosso Penteado"
+ontology "Ontology for Concerns (O4C)"
+
+class ContributionType <<enum>>
+	att POSITIVE
+	att NEGATIVE;
+
+class SourceType <<enum>> 
+	att CATALOG
+	att BUSINESS_DOC
+	att STAKEHOLDER;
+
+class Keyword <<kind>>;
+
+class Source <<kind>>
+	att st : SourceType;
+
+class Concern <<kind>>;
+
+class NonFunctionalConcern <<subkind>>;
+class FunctionalConcern <<subkind>>;
+genset disjoint complete
+	gen super Concern sub FunctionalConcern
+	gen super Concern sub NonFunctionalConcern;
+
+class Relationship <<relator>>;
+
+class Contribution <<relator>>
+	att ct : ContributionType;
+class Dependency <<relator>>;
+class Composition <<relator>>;
+genset disjoint complete
+	gen super Relationship sub Dependency
+	gen super Relationship sub Contribution
+	gen super Relationship sub Composition;
+
+association hasKw <<componentOf>>
+	from shared : Concern
+	to navigable [0..*] : Keyword;
+
+association hasSource <<componentOf>>
+	from shared : Concern
+	to navigable [0..*] : Source;
+
+association isRelatedTo <<material>>
+	from : Concern
+	to navigable : Concern;
+
+association source <<mediation>>
+	from : Relationship
+	to navigable [1..1] : Concern;
+
+association target <<mediation>>
+	from : Relationship
+	to navigable [1..1] : Concern;
+

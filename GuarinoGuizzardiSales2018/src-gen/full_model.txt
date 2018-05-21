@@ -1,0 +1,32 @@
+@startuml
+
+ "Money_Transfer_Conditional_Commitment" "1..1" --  "0..1""Cash_Event": fulfills_2
+ "Economic_Event" <|-- "Cash_Event"
+ "Bilateral_Economic_Contract" "1..1" *--  "1..*""Money_Transfer_Conditional_Commitment"
+ class "Sell_Event" <<subkind>>
+ Receiver "1..1" --  "1..*""Money_Transfer_Conditional_Commitment": "inheres in_2"
+ "Economic_Agent" <|-- Provider
+ "Bilateral_Economic_Contract" "1..1" *--  "1..*""Good_Transfer_Conditional_Commitment"
+ class "Cash_Event" <<subkind>>
+ class "Economic_Event" <<event>>
+ class "Economic_Exchange" <<event>>
+ class "Bilateral_Economic_Contract" <<relator>>
+ "Economic_Agent" <|-- Receiver
+ class "Good_Transfer_Conditional_Commitment" <<mode>>
+ "Good_Transfer_Conditional_Commitment" "1..1" --  "0..1""Sell_Event": fulfills
+ class Provider <<roleMixin>>
+ "Good_Transfer_Conditional_Commitment" "1..1" --  "1..1""Money_Transfer_Conditional_Commitment": "reciprocity (mutual existential dependence)"
+ "Economic_Event" <|-- "Sell_Event"
+ "Economic_Exchange" "1..1" *--  "1..1""Cash_Event"
+ class "Economic_Agent" <<roleMixin>>
+ Receiver "1..1" --  "1..*""Bilateral_Economic_Contract": involves_2
+ class "Money_Transfer_Conditional_Commitment" <<mode>>
+ "Economic_Exchange" "1..1" *--  "1..1""Sell_Event"
+ "Sell_Event" "1..1" --  "1..1""Cash_Event": "/ duality (derived relation)"
+ class Agent <<category>>
+ Provider "1..1" --  "1..*""Bilateral_Economic_Contract": involves
+ Agent <|-- "Economic_Agent"
+ class Receiver <<roleMixin>>
+ Provider "1..1" --  "1..*""Good_Transfer_Conditional_Commitment": "inheres in"
+
+@enduml
