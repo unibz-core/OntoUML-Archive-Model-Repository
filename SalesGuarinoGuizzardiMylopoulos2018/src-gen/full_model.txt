@@ -1,48 +1,78 @@
 @startuml
 
- class "Market_Competitor" <<roleMixin>>
- "Market_Competitor" <|-- "Direct_Competitor"
- Market <|-- "Simple_Market"
  "Resource_Demand" "0..*" --  "1..1"Resource: "ext. dep. on" >
- class "Demand_for_Market" <<mode>>
- class "Indirect_Competitor" <<roleMixin>>
- Competitor "1..*" --  "1..*"Competitor: "/competes with" >
- Competition "1..*" --  "1..1""Scare_Resource": "/involves_2" >
- Supplier <|-- "Market_Competitor"
- class Resource <<mixin>>
- "Single_Resource" "2..*" --o  "0..*""Resource_Stock"
- class Competitor <<roleMixin>>
- Agent <|-- Competitor
- "Collective_Demand" <|-- Competition
- "Resource_Type" "1..*" --  "0..*""Single_Resource": categorizes >
- "Resource_Demand" "0..*" --  "1..1"Agent: "inheres in" >
- class "Single_Resource" <<roleMixin>>
+ "Demand_for_Market" "1..*" --  "1..1"Market: "externally dependent on" >
+ class Capability <<quality>>
+ "Supplier_Capability" "1..*" --  "1..1"Supplier: "inheres in_5" >
  class Supplier <<roleMixin>>
- Resource <|-- "Resource_Type"
- class "Market_Competition" <<relator>>
- "Collective_Demand" "0..*" --  "2..*"Agent: involves >
+ "Potential_Competition" "0..*" --  "1..1"Supplier: involves_7 >
+ class Resource <<mixin>>
  Market <|-- "Composed_Market"
- class "Direct_Competitor" <<roleMixin>>
- class Agent <<category>>
- "Resource_Stock" "0..*" --  "1..1""Resource_Type": "defined by" >
- Competition "1..*" --  "2..*"Competitor: "/involves" >
- class "Scare_Resource" <<roleMixin>>
- class "Value_Proposition" <<relator>>
- class "Composed_Market" <<subkind>>
+ "Demand_for_Market" "2..*" --*  "0..*""Market_Competition"
+ Market "2..*" --o  "0..1""Composed_Market"
+ class "Equivalent_Capability" <<role>>
  class Competition <<phase>>
- class "Simple_Market" <<subkind>>
- class "Resource_Demand" <<mode>>
- class "Resource_Stock" <<collective>>
- "Collective_Demand" <|-- "Non-Competition"
- class "Collective_Demand" <<relator>>
- Resource <|-- "Single_Resource"
- Resource <|-- "Resource_Stock"
- "Resource_Demand" "2..*" --*  "0..*""Collective_Demand"
- "Collective_Demand" "0..*" --  "1..1"Resource: involves_1 >
- class Market <<collective>>
- class "Non-Competition" <<phase>>
- Resource <|-- "Scare_Resource"
  class "Resource_Type" <<powertype>>
+ Resource <|-- "Single_Resource"
+ "Potential_Competition" "1..*" --  "1..1""Potential_Competitor": involves_8 >
+ "Collective_Demand" "0..*" --  "2..*"Agent: involves >
+ "Economic_Agent" <|-- "Potential_Competitor"
+ "Potential_Competition" "0..*" *--  "1..*""Equivalent_Capability"
+ Agent <|-- Competitor
+ class "Potential_Competitor" <<roleMixin>>
+ class "Resource_Stock" <<collective>>
+ "Resource_Stock" "0..*" --  "1..1""Resource_Type": "defined by" >
+ "Collective_Demand" <|-- Competition
+ "Market_Competitor" "1..*" --  "1..*""Market_Competitor": "/competes with_2" >
+ class "Scare_Resource" <<roleMixin>>
  "Market_Competitor" <|-- "Indirect_Competitor"
+ "Single_Resource" "2..*" --o  "0..*""Resource_Stock"
+ class "Value_Proposition" <<relator>>
+ Competition "1..*" --  "1..1""Scare_Resource": "/involves_2" >
+ "Economic_Agent" <|-- Supplier
+ class "Collective_Demand" <<relator>>
+ class "Demand_for_Market" <<mode>>
+ Capability "1..*" --  "1..1""Economic_Agent": "inheres in_3" >
+ class Agent <<category>>
+ "Resource_Type" "1..*" --  "0..*""Single_Resource": categorizes >
+ Market <|-- "Simple_Market"
+ class "Simple_Market" <<subkind>>
+ class "Supplier_Capability" <<role>>
+ class Competitor <<roleMixin>>
+ "Direct_Competitor" "1..*" --  "1..*""Direct_Competitor": "/directly competes with" >
+ class "Market_Competition" <<relator>>
+ Competitor "1..*" --  "1..*"Competitor: "/competes with" >
+ class "Single_Resource" <<roleMixin>>
+ Resource <|-- "Resource_Stock"
+ Capability <|-- "Equivalent_Capability"
+ class "Potential_Competition" <<relator>>
+ "Collective_Demand" <|-- "Non-Competition"
+ "Collective_Demand" "0..*" --  "1..1"Resource: involves_1 >
+ Competition "1..*" --  "2..*"Competitor: "/involves" >
+ "Potential_Competition" "0..*" *--  "1..*""Supplier_Capability"
+ "Resource_Demand" "2..*" --*  "0..*""Collective_Demand"
+ "Value_Proposition" "1..*" --  "1..1"Market: involves_4 >
+ "Resource_Demand" "0..*" --  "1..1"Agent: "inheres in" >
+ class "Economic_Agent" <<category>>
+ Resource <|-- "Scare_Resource"
+ class "Direct_Competitor" <<roleMixin>>
+ class "Market_Competitor" <<roleMixin>>
+ class "Non-Competition" <<phase>>
+ "Market_Competitor" <|-- "Direct_Competitor"
+ Capability <|-- "Supplier_Capability"
+ Resource <|-- "Resource_Type"
+ "Market_Competition" "1..*" --  "2..*""Market_Competitor": involves_5 >
+ "Indirect_Competitor" "1..*" --  "1..*""Indirect_Competitor": "/indirectly competes with" >
+ class "Indirect_Competitor" <<roleMixin>>
+ Supplier <|-- "Market_Competitor"
+ "Value_Proposition" "1..*" --  "1..1"Supplier: involves_3 >
+ class Market <<collective>>
+ "Demand_for_Market" "1..1" --  "1..1""Value_Proposition": "based on" >
+ class "Resource_Demand" <<mode>>
+ "Market_Competition" "0..1" --  "1..1"Market: involves_6 >
+ "Equivalent_Capability" "0..*" --  "1..*""Supplier_Capability": "equivalent to" >
+ "Equivalent_Capability" "1..*" --  "1..1""Potential_Competitor": "inheres in_4" >
+ class "Composed_Market" <<subkind>>
+ "Demand_for_Market" "1..*" --  "1..1"Supplier: "inheres in_2" >
 
 @enduml

@@ -104,3 +104,101 @@ genset disjoint complete
 	gen super Market sub "Simple Market"
 	gen super Market sub "Composed Market";
 
+association involves_3
+	from [1..*] : "Value Proposition"
+	to [1..1] : Supplier;
+	
+association involves_4
+	from [1..*] : "Value Proposition"
+	to [1..1] : Market;
+	
+association "based on"
+	from [1..1] :  "Demand for Market"
+	to [1..1] : "Value Proposition";
+
+association "inheres in_2"
+	from [1..*] :  "Demand for Market"
+	to [1..1] : Supplier;
+
+association "externally dependent on"
+	from [1..*] :  "Demand for Market"
+	to [1..1] : Market;
+
+association
+	end [2..*] : "Demand for Market"
+	end composite [0..*] : "Market Competition";
+
+association involves_5
+	from [1..*] : "Market Competition"
+	to [2..*] : "Market Competitor";
+	
+association involves_6
+	from [0..1] : "Market Competition"
+	to [1..1] : Market;
+
+association "/competes with_2"
+	from [1..*] : "Market Competitor"
+	to [1..*] : "Market Competitor";
+	
+association "/directly competes with"
+	from [1..*] : "Direct Competitor"
+	to [1..*] : "Direct Competitor";
+	
+association "/indirectly competes with"
+	from [1..*] : "Indirect Competitor"
+	to [1..*] : "Indirect Competitor";
+
+association
+	end [2..*] : Market
+	end shared [0..1] : "Composed Market";
+
+class "Economic Agent" <<category>>;
+
+class "Potential Competitor" <<roleMixin>>;
+
+genset
+	gen super "Economic Agent" sub Supplier
+	gen super "Economic Agent" sub "Potential Competitor";
+
+class Capability <<quality>>;
+
+class "Potential Competition" <<relator>>;
+
+class "Supplier Capability" <<role>>;
+class "Equivalent Capability" <<role>>;
+
+genset
+	gen super Capability sub "Supplier Capability"
+	gen super Capability sub "Equivalent Capability";
+
+association "inheres in_3"
+	from [1..*] : Capability
+	to [1..1] : "Economic Agent";
+	
+association "inheres in_4"
+	from [1..*] : "Equivalent Capability"
+	to [1..1] : "Potential Competitor";
+	
+association "inheres in_5"
+	from [1..*] : "Supplier Capability"
+	to [1..1] : Supplier;
+
+association "equivalent to"
+	from [0..*] : "Equivalent Capability"
+	to [1..*] : "Supplier Capability";
+
+association involves_7
+	from [0..*] : "Potential Competition"
+	to [1..1] : Supplier;
+
+association involves_8
+	from [1..*] : "Potential Competition"
+	to [1..1] : "Potential Competitor";
+
+association 
+	end composite [0..*] : "Potential Competition"
+	end [1..*] : "Supplier Capability";
+	
+association 
+	end composite [0..*] : "Potential Competition"
+	end [1..*] : "Equivalent Capability";
